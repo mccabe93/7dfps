@@ -2,15 +2,11 @@ using UnityEngine;
 
 public class TrampolineLimit : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var tbase = other.gameObject.GetComponent<TrampolineTile>();
+        var rb = tbase.RigidBody;
+        rb.angularVelocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
     }
 }
