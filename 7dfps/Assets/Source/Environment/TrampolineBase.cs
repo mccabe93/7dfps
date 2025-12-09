@@ -9,13 +9,9 @@ public class TrampolineBase : MonoBehaviour
     {
         var tbase = other.gameObject.GetComponent<TrampolineTile>();
         var rb = tbase.RigidBody;
-        foreach (var collider in tbase.Floor.Colliders)
+        if (rb.linearVelocity.magnitude < UpwardForce)
         {
-            collider.rigidbody.AddForceAtPosition(
-                Vector3.up * UpwardForce * Math.Abs(collider.rigidbody.linearVelocity.y),
-                rb.transform.position + Vector3.down,
-                ForceMode.Force
-            );
+            rb.linearVelocity = Vector3.up * UpwardForce;
         }
     }
 }
