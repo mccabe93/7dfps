@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - AI_Waypoint
+  - Ground
+  - WeaponMuzzle
+  - Bullet_Player
   layers:
   - Default
   - TransparentFX

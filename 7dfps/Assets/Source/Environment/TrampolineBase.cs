@@ -8,10 +8,13 @@ public class TrampolineBase : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         var tbase = other.gameObject.GetComponent<TrampolineTile>();
-        var rb = tbase.RigidBody;
-        if (rb.linearVelocity.magnitude < UpwardForce)
+        if (tbase != null)
         {
-            rb.linearVelocity = Vector3.up * UpwardForce;
+            var rb = tbase.RigidBody;
+            if (rb.linearVelocity.magnitude < UpwardForce)
+            {
+                rb.linearVelocity = Vector3.up * UpwardForce;
+            }
         }
     }
 }
