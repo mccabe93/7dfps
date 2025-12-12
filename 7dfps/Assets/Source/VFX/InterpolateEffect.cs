@@ -2,16 +2,15 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class FadeEffect : MonoBehaviour
+public class InterpolateEffect : MonoBehaviour
 {
-    public Renderer Renderer;
-    public Material TransparentMaterial;
+    public Transform Start;
+    public Transform End;
+    public GameObject Object;
     public float Duration = 1.0f;
 
     public Action OnEffectComplete { get; set; }
     public bool IsPlaying { get; set; } = false;
-
-    private void Start() { }
 
     public bool StartFX()
     {
@@ -27,8 +26,6 @@ public class FadeEffect : MonoBehaviour
     private IEnumerator FadeFX()
     {
         float elapsedTime = 0.0f;
-        Renderer.material = TransparentMaterial;
-        Color originalColor = Renderer.material.color;
         while (elapsedTime < Duration)
         {
             if (!IsPlaying)
@@ -36,12 +33,10 @@ public class FadeEffect : MonoBehaviour
                 break;
             }
             elapsedTime += 0.1f;
-            float alpha = Mathf.Lerp(1.0f, 0.0f, elapsedTime / Duration);
-            Renderer.material.color = new Color(
-                originalColor.r,
-                originalColor.g,
-                originalColor.b,
-                alpha
+            Object.transform.position = Vector3.Lerp(
+                Start.position,
+                End.position,
+                elapsedTime / Duration
             );
             yield return new WaitForSeconds(0.1f);
         }

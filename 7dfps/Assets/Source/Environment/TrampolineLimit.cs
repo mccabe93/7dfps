@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class TrampolineLimit : MonoBehaviour
 {
+    public Collider Tile;
+
+    private TrampolineTile _trampolineTile;
+
+    private void Start()
+    {
+        _trampolineTile = Tile.GetComponentInChildren<TrampolineTile>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        var tbase = other.gameObject.GetComponent<TrampolineTile>();
-        if (tbase != null)
+        if (other == Tile)
         {
-            var rb = tbase.RigidBody;
-            rb.angularVelocity = Vector3.zero;
-            rb.linearVelocity = Vector3.zero;
+            _trampolineTile.RigidBody.angularVelocity = Vector3.zero;
+            _trampolineTile.RigidBody.linearVelocity = Vector3.zero;
+            _trampolineTile.RigidBody.useGravity = false;
         }
     }
 }

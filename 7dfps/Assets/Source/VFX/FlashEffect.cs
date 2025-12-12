@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class FlashEffect : MonoBehaviour, IEffect
+public class FlashEffect : MonoBehaviour
 {
+    public Renderer Renderer;
     public Action OnEffectComplete { get; set; }
-    public GameObject Parent { get; set; }
-    public float Duration { get; set; } = 1.0f;
-    public bool IsPlaying { get; set; } = false;
+    public float Duration = 0.3f;
+    public bool IsPlaying = false;
 
     public Color Color = Color.red;
 
@@ -25,16 +25,19 @@ public class FlashEffect : MonoBehaviour, IEffect
     private IEnumerator FlashFX()
     {
         float elapsedTime = 0.0f;
-        MeshRenderer renderer = GetComponent<MeshRenderer>();
-        Color originalColor = renderer.material.color;
+        Color originalColor = Renderer.material.color;
         float rDiff = originalColor.r - Color.r;
         float gDiff = originalColor.g - Color.g;
         float bDiff = originalColor.b - Color.b;
         while (elapsedTime < Duration)
         {
+            if (!IsPlaying)
+            {
+                break;
+            }
             elapsedTime += 0.1f;
             float delta = Mathf.Lerp(1.0f, 0.0f, elapsedTime / Duration);
-            renderer.material.color = new Color(
+            Renderer.material.color = new Color(
                 originalColor.r - (rDiff * delta),
                 originalColor.g - (gDiff * delta),
                 originalColor.b - (bDiff * delta)

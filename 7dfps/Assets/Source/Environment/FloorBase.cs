@@ -3,21 +3,42 @@ using UnityEngine;
 
 public class FloorBase : MonoBehaviour
 {
-    public HashSet<Collision> Colliders = new HashSet<Collision>();
+    public Transform Limit;
+    public Transform Floor;
+    public HashSet<Rigidbody> CollidingObjects = new HashSet<Rigidbody>();
+
+    public void Update()
+    {
+        if (transform.position.y > Limit.position.y)
+        {
+            transform.position = Limit.position;
+        }
+        else if (transform.position.y < Floor.position.y)
+        {
+            transform.position = Floor.position;
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!Colliders.Contains(collision))
+        if (collision.rigidbody != null && collision.gameObject.tag != "Ground")
         {
-            Colliders.Add(collision);
+            CollidingObjects.Add(collision.rigidbody);
+            if (collision.gameObject.tag == "Enemy")
+            {
+                collision.gameObject.GetComponent<EnemyActor>().OnDeath += () =>
+                {
+                    CollidingObjects.Remove(collision.rigidbody);
+                };
+            }
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (Colliders.Contains(collision))
+        if (collision.rigidbody != null && collision.gameObject.tag != "Ground")
         {
-            Colliders.Remove(collision);
+            CollidingObjects.Remove(collision.rigidbody);
         }
     }
 }

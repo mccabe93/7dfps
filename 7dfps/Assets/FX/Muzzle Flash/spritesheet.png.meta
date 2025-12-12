@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c2d9b69e1d51ed840b731c1c2f186853
+guid: fd8c1c9e1dd3770459feac6f71fdfd90
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Heart Sprite Sheet_0
+      name: spritesheet_0
       rect:
         serializedVersion: 2
-        x: 126
-        y: 1293
-        width: 388
-        height: 613
+        x: 0
+        y: 0
+        width: 300
+        height: 300
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afd178abd9ed31e48b7f7346d9c11edb
-      internalID: 1837556354
+      spriteID: 558bce0040b6d4d45accd381cb730426
+      internalID: 1781387224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Heart Sprite Sheet_1
+      name: spritesheet_1
       rect:
         serializedVersion: 2
-        x: 765
-        y: 1314
-        width: 388
-        height: 582
+        x: 300
+        y: 0
+        width: 300
+        height: 300
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +147,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b67fe6f3036cc8449e23267d6ca8c38
-      internalID: -1654186527
+      spriteID: dadfbc8e8701b144c8449b83f48231d7
+      internalID: -135172238
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Heart Sprite Sheet_2
+      name: spritesheet_2
       rect:
         serializedVersion: 2
-        x: 1404
-        y: 1315
-        width: 383
-        height: 582
+        x: 600
+        y: 0
+        width: 300
+        height: 300
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +169,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b88d47ebaa710d84d87b2550e54dadd9
-      internalID: 1574956962
+      spriteID: 9282155257b614a4b8d8ce668b57586f
+      internalID: -521286697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Heart Sprite Sheet_3
+      name: spritesheet_3
       rect:
         serializedVersion: 2
-        x: 157
-        y: 669
-        width: 326
-        height: 562
+        x: 900
+        y: 0
+        width: 300
+        height: 300
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,52 +191,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70b20a30d87e5fa4982e7d235a1e2c62
-      internalID: -1129610290
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Heart Sprite Sheet_4
-      rect:
-        serializedVersion: 2
-        x: 801
-        y: 736
-        width: 347
-        height: 514
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6c7f91a0889cdb341b9b85d69fdc861f
-      internalID: 477464074
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Heart Sprite Sheet_5
-      rect:
-        serializedVersion: 2
-        x: 1455
-        y: 773
-        width: 317
-        height: 427
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7cc83ccd73627354e9a690f274530a87
-      internalID: 1785404413
+      spriteID: 3fb5b4d47c20cb74483673f060949bd4
+      internalID: -1975317182
       vertices: []
       indices: 
       edges: []
@@ -245,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b8e5a099eeacfed4fabe914f7e876ce5
+    spriteID: f1c3074a0e873bf48a96d58642132f15
     internalID: 0
     vertices: []
     indices: 
@@ -255,14 +211,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":300.0,"y":300.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Heart Sprite Sheet_0: 1837556354
-      Heart Sprite Sheet_1: -1654186527
-      Heart Sprite Sheet_2: 1574956962
-      Heart Sprite Sheet_3: -1129610290
-      Heart Sprite Sheet_4: 477464074
-      Heart Sprite Sheet_5: 1785404413
+      spritesheet_0: 1781387224
+      spritesheet_1: -135172238
+      spritesheet_2: -521286697
+      spritesheet_3: -1975317182
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

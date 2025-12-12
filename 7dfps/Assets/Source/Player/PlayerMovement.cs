@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform PlayerTransform;
 
+    private GroundedChecker _groundedChecker;
+
     public float Speed = 1.0f;
 
     public float JumpForce = 10.0f;
@@ -31,12 +33,11 @@ public class PlayerMovement : MonoBehaviour
 
     public InputActionReference SprintAction;
 
-    public bool IsGrounded = false;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        _groundedChecker = gameObject.AddComponent<GroundedChecker>();
     }
 
     void FixedUpdate()
@@ -45,25 +46,9 @@ public class PlayerMovement : MonoBehaviour
         MoveCamera();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            IsGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            IsGrounded = false;
-        }
-    }
-
     private void MovePlayer()
     {
-        if (IsGrounded && JumpAction.action.WasPressedThisFrame())
+        if (_groundedChecker.IsGrounded && JumpAction.action.WasPressedThisDynamicUpdate())
         {
             Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             return;

@@ -1,60 +1,118 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
+public enum MovementResult
+{
+    Unknown,
+    Moved,
+    Rotating,
+    ReachedDestination,
+}
 
 public class Rayfinder : MonoBehaviour
 {
     public Transform Source;
     public Transform Destination;
 
-    public float Speed { get; set; } = 1f;
-    public bool CanFly { get; set; } = false;
-    public bool CanFall { get; set; } = false;
-    public Node Path { get; } = new Node(Vector3.zero, null, false, false);
+    public float StopDistance = 0.1f;
+    public float Speed = 1f;
+    public float RotationSpeed = 10f;
+    public bool CanFly = false;
+    public bool CanRotateAndMove = true;
+    public List<Node> Path { get; } = new List<Node>();
 
-    private PhysicsRaycaster _raycaster;
-    private List<RaycastResult> _raycastHits = new List<RaycastResult>();
-    private PointerEventData _pointerEventData = new PointerEventData(EventSystem.current);
+    private readonly RaycastHit[] _raycastHits = new RaycastHit[32];
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public MovementResult Move(bool grounded)
     {
-        _raycaster = gameObject.AddComponent<PhysicsRaycaster>();
-    }
+        if (Vector3.Distance(Source.position, Destination.position) < StopDistance)
+        {
+            return MovementResult.ReachedDestination;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Source.position = Vector3.MoveTowards(
-            Source.position,
-            Destination.position,
-            Speed * Time.deltaTime
-        );
+        if (CanRotateAndMove)
+        {
+            Source.position = Vector3.MoveTowards(
+                Source.position,
+                Destination.position,
+                Speed * Time.deltaTime
+            );
+            Source.rotation = Quaternion.RotateTowards(
+                Source.rotation,
+                Quaternion.LookRotation(Destination.position - Source.position),
+                Speed * Time.deltaTime * RotationSpeed
+            );
+        }
+        else
+        {
+            if (Source.rotation == Quaternion.LookRotation(Destination.position - Source.position))
+            {
+                Source.position = Vector3.MoveTowards(
+                    Source.position,
+                    Destination.position,
+                    Speed * Time.deltaTime
+                );
+                return MovementResult.Rotating;
+            }
+            else
+            {
+                Source.rotation = Quaternion.RotateTowards(
+                    Source.rotation,
+                    Quaternion.LookRotation(Destination.position - Source.position),
+                    RotationSpeed * Time.deltaTime
+                );
+            }
+        }
+        return MovementResult.Moved;
     }
 
     private void TryCreateVector(Transform destination)
     {
-        _raycastHits.Clear();
-        _pointerEventData.position = Source.position + Vector3.forward;
-        _raycaster.Raycast(_pointerEventData, _raycastHits);
-        if (_raycastHits.Count > 0)
+        Ray ray = new Ray(Source.position, Source.position - Destination.position);
+        Physics.RaycastNonAlloc(ray, _raycastHits);
+        Debug.DrawRay(ray.origin, ray.direction);
+        var notSelfHit = GetFirstHit();
+        if (notSelfHit != null)
         {
-            /*
-            Path.Clear();
-            foreach (var hit in _raycastHits)
-            {
-                Path.Add(hit.worldPosition);
-            }
-            */
+            Path.Add(
+                new Node(
+                    Source.position,
+                    notSelfHit.Value.collider,
+                    isEndpoint: true,
+                    createGrid: true
+                )
+            );
         }
     }
 
-    private void CreateCollisionGrid(Transform destination) { }
+    private RaycastHit? GetFirstHit()
+    {
+        for (int i = 0; i < _raycastHits.Length; i++)
+        {
+            if (_raycastHits[i].transform == null)
+            {
+                break;
+            }
+            else if (
+                _raycastHits[i].transform.gameObject == this
+                || _raycastHits[i].transform.gameObject.tag == "Ground"
+            )
+            {
+                continue;
+            }
+            return _raycastHits[i];
+        }
+        return null;
+    }
 }
 
-public class Node
+public record Node
 {
+    public static Node DefaultNode = new Node(Vector3.zero, null, false, false);
+
     public readonly Vector3 Position;
     public readonly Collider Collider;
     public readonly bool IsEndpoint = false;

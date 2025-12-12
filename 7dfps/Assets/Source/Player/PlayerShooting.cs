@@ -10,6 +10,11 @@ public class PlayerShooting : MonoBehaviour
 {
     public GameObject Player;
     public GameObject Bullet;
+    public Transform WeaponTransform;
+    public GameObject MuzzleFlash;
+
+    private Animator _muzzleFlash;
+    private SpriteRenderer _muzzleFlashRenderer;
 
     public int AmmoCount = 10;
     public int MaxAmmoCount = 10;
@@ -40,11 +45,21 @@ public class PlayerShooting : MonoBehaviour
             .GetComponentsInChildren<Transform>()
             .FirstOrDefault(t => t.tag == "MainCamera")
             ?.transform;
+        _muzzleFlash = MuzzleFlash.GetComponent<Animator>();
+        _muzzleFlashRenderer = MuzzleFlash.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (
+            _muzzleFlashRenderer.enabled
+            && !_muzzleFlash.GetCurrentAnimatorStateInfo(0).IsName("muzzle-flash")
+        )
+        {
+            _muzzleFlashRenderer.enabled = false;
+        }
+
         if (_canAct && ShootAction.action.triggered)
         {
             StartCoroutine("Shoot");
@@ -55,12 +70,17 @@ public class PlayerShooting : MonoBehaviour
             StartCoroutine("Reload");
         }
 
-        transform.position =
-            Camera.transform.position
-            + Camera.transform.forward * 1.5f
-            + Camera.transform.right * 0.75f
-            + Camera.transform.up * -0.5f;
-        transform.LookAt(Camera.transform.position - Camera.transform.forward * 10f);
+        float rotationX = Camera.rotation.eulerAngles.x;
+        if (rotationX > 180f)
+        {
+            rotationX -= 360f;
+        }
+        float adjustment = rotationX > 0 ? -1.5f * (rotationX / 180f) : 1.5f * (rotationX / 180f);
+        WeaponTransform.localPosition = new Vector3(
+            WeaponTransform.localPosition.x,
+            WeaponTransform.localPosition.y,
+            1.5f + adjustment
+        );
     }
 
     private IEnumerator Shoot()
@@ -97,12 +117,15 @@ public class PlayerShooting : MonoBehaviour
         {
             _isReloading = false;
             ClipAmmo -= 1;
+            _muzzleFlashRenderer.enabled = true;
+            _muzzleFlash.Play("muzzle-flash", -1, 0f);
             GameObject bullet = Instantiate(
                 Bullet,
                 WeaponMuzzle.position,
                 Camera.transform.rotation
             );
-            bullet.GetComponent<Rigidbody>().linearVelocity = Camera.transform.forward * 10f;
+            var bulletProperties = bullet.GetComponent<Bullet>();
+            bulletProperties.Direction = Camera.transform.forward;
         }
     }
 }

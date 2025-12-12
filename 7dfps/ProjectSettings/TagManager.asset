@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - WeaponMuzzle
   - Bullet_Player
+  - Enemy
   layers:
   - Default
   - TransparentFX

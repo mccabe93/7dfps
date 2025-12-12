@@ -1,40 +1,54 @@
 using System;
+using System.Linq;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyActor : MonoBehaviour
 {
     public Action<Collision> OnCollision;
+    public Action OnDeath;
 
     public Animator Animator;
-    public int Health = 10;
+    public float Health = 10f;
 
-    private FlashEffect _flashVfx;
-    private FadeEffect _fadeVfx;
+    public Texture2D[] BloodTextures;
+    public FlashEffect FlashVfx;
+    public FadeEffect FadeVfx;
+
+    public bool IsAlive = true;
 
     void Awake()
     {
-        _fadeVfx = this.AddComponent<FadeEffect>();
-        _fadeVfx.OnEffectComplete = () => Destroy(gameObject);
-        _fadeVfx.Duration = 3.0f;
-        _fadeVfx.Parent = gameObject;
-        _flashVfx = this.AddComponent<FlashEffect>();
-        _flashVfx.Color = Color.red;
-        _flashVfx.Duration = 1.0f;
+        if (FadeVfx != null)
+        {
+            FadeVfx.OnEffectComplete = () => Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Bullet_Player")
+        if (IsAlive && collision.gameObject.tag == "Bullet_Player")
         {
-            Health -= 2;
-            if (Health <= 0 && !_fadeVfx.IsPlaying)
+            var bullet = collision.gameObject.GetComponent<Bullet>();
+            Health -= bullet.Damage;
+            if (Health <= 0f)
             {
-                _fadeVfx.StartFX();
+                if (FlashVfx != null)
+                {
+                    FlashVfx.IsPlaying = false;
+                }
+                if (FadeVfx != null)
+                {
+                    FadeVfx.StartFX();
+                }
+                IsAlive = false;
+                OnDeath?.Invoke();
             }
-            else if (!_fadeVfx.IsPlaying && !_flashVfx.IsPlaying)
+            else if (FlashVfx != null && !FlashVfx.IsPlaying)
             {
-                _flashVfx.StartFX();
+                FlashVfx.StartFX();
             }
         }
         OnCollision?.Invoke(collision);

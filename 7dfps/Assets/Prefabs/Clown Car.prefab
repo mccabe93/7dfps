@@ -10,31 +10,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.26
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.98
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.81908774
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.5736683
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -42,16 +42,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 70.013
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7635826562936255635, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
+      propertyPath: m_RayTracingMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c4bf269f63f117c47a5b76d3657d2bf6, type: 2}
+    - target: {fileID: -7635826562936255635, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f4c76212ac796974e9407f396ed746da, type: 2}
     - target: {fileID: 919132149155446097, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       propertyPath: m_Name
       value: Clown Car
@@ -69,6 +85,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 638026218697539530}
+    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8063609608346630463}
+    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3254563257022649768}
+    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2073986791009579549}
+    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5703440176584478850}
   m_SourcePrefab: {fileID: 100100000, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
 --- !u!1 &3095648886025495011 stripped
 GameObject:
@@ -89,6 +117,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyActor
   Animator: {fileID: 0}
   Health: 10
+  BloodTextures:
+  - {fileID: 2800000, guid: 696eeaa00ba62f043b52b3142a778037, type: 3}
+  FlashVfx: {fileID: 8063609608346630463}
+  FadeVfx: {fileID: 3254563257022649768}
+  IsAlive: 1
 --- !u!54 &7555013195867341713
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -97,8 +130,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3095648886025495011}
   serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
+  m_Mass: 100
+  m_LinearDamping: 1
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -114,7 +147,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &638026218697539530
 BoxCollider:
@@ -137,3 +170,72 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.189782, y: 1.524715, z: 2.4092178}
   m_Center: {x: 0, y: 0.7836555, z: 0.15273803}
+--- !u!114 &8063609608346630463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3095648886025495011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35fbfa66cbfdf124785fd2d3c5a749b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlashEffect
+  Renderer: {fileID: 5598341855037959942}
+  Duration: 0.3
+  IsPlaying: 0
+  Color: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &3254563257022649768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3095648886025495011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a09cb3d435cef40a8dc6646cb4688f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FadeEffect
+  Renderer: {fileID: 5598341855037959942}
+  TransparentMaterial: {fileID: 2100000, guid: f4c76212ac796974e9407f396ed746da, type: 2}
+  Duration: 1
+--- !u!114 &2073986791009579549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3095648886025495011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1051c1aba84b9124bbb457b025523c65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClownCarMovement
+  Actor: {fileID: 4004081856482311789}
+  Rayfinder: {fileID: 5703440176584478850}
+  Rigidbody: {fileID: 7555013195867341713}
+--- !u!114 &5703440176584478850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3095648886025495011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f2235362e7275f4fb28d8e3caa2133d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rayfinder
+  Source: {fileID: 0}
+  Destination: {fileID: 0}
+  StopDistance: 1
+  Speed: 5
+  CanFly: 0
+  CanRotateAndMove: 0
+--- !u!23 &5598341855037959942 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7635826562936255635, guid: 69cdecb656171a0428195c10b7237ffa, type: 3}
+  m_PrefabInstance: {fileID: 6609408980148839531}
+  m_PrefabAsset: {fileID: 0}
