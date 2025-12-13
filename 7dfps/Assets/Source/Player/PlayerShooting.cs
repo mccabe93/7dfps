@@ -11,11 +11,8 @@ public class PlayerShooting : MonoBehaviour
     public GameObject Player;
     public GameObject Bullet;
     public Transform WeaponTransform;
-    public GameObject MuzzleFlash;
 
-    private Animator _muzzleFlash;
-    private SpriteRenderer _muzzleFlashRenderer;
-
+    public MuzzleFlashPlayer MuzzleFlashPlayer;
     public int AmmoCount = 10;
     public int MaxAmmoCount = 10;
     public int ClipAmmo = 5;
@@ -28,6 +25,9 @@ public class PlayerShooting : MonoBehaviour
 
     public InputActionReference ReloadAction;
 
+    public InterpolateEffect ReloadEffect;
+    public InterpolateEffect RecoilEffect;
+
     private bool _isShooting = false;
     private bool _isReloading = false;
     private bool _canAct => !_isShooting && !_isReloading;
@@ -38,6 +38,7 @@ public class PlayerShooting : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        ReloadEffect.Duration = ReloadTime;
         WeaponMuzzle = GetComponentsInChildren<Transform>()
             .FirstOrDefault(t => t.tag == "WeaponMuzzle")
             ?.transform;
@@ -45,21 +46,11 @@ public class PlayerShooting : MonoBehaviour
             .GetComponentsInChildren<Transform>()
             .FirstOrDefault(t => t.tag == "MainCamera")
             ?.transform;
-        _muzzleFlash = MuzzleFlash.GetComponent<Animator>();
-        _muzzleFlashRenderer = MuzzleFlash.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (
-            _muzzleFlashRenderer.enabled
-            && !_muzzleFlash.GetCurrentAnimatorStateInfo(0).IsName("muzzle-flash")
-        )
-        {
-            _muzzleFlashRenderer.enabled = false;
-        }
-
         if (_canAct && ShootAction.action.triggered)
         {
             StartCoroutine("Shoot");
@@ -67,20 +58,42 @@ public class PlayerShooting : MonoBehaviour
 
         if (_canAct && ReloadAction.action.triggered)
         {
-            StartCoroutine("Reload");
+            _isReloading = true;
+            ReloadEffect.StartFX();
+            ReloadEffect.OnEffectComplete = () =>
+            {
+                if (_isReloading)
+                {
+                    if (AmmoCount - ClipCapacity < 0)
+                    {
+                        ClipAmmo = AmmoCount;
+                        AmmoCount = 0;
+                    }
+                    else
+                    {
+                        ClipAmmo = ClipCapacity;
+                        AmmoCount -= ClipCapacity;
+                    }
+                }
+                _isReloading = false;
+            };
         }
 
-        float rotationX = Camera.rotation.eulerAngles.x;
-        if (rotationX > 180f)
+        if (!_isReloading)
         {
-            rotationX -= 360f;
+            float rotationX = Camera.rotation.eulerAngles.x;
+            if (rotationX > 180f)
+            {
+                rotationX -= 360f;
+            }
+            float adjustment =
+                rotationX > 0 ? -1.5f * (rotationX / 180f) : 1.5f * (rotationX / 180f);
+            WeaponTransform.localPosition = new Vector3(
+                WeaponTransform.localPosition.x,
+                WeaponTransform.localPosition.y,
+                1.5f + adjustment
+            );
         }
-        float adjustment = rotationX > 0 ? -1.5f * (rotationX / 180f) : 1.5f * (rotationX / 180f);
-        WeaponTransform.localPosition = new Vector3(
-            WeaponTransform.localPosition.x,
-            WeaponTransform.localPosition.y,
-            1.5f + adjustment
-        );
     }
 
     private IEnumerator Shoot()
@@ -91,34 +104,13 @@ public class PlayerShooting : MonoBehaviour
         _isShooting = false;
     }
 
-    private IEnumerator Reload()
-    {
-        _isReloading = true;
-        yield return new WaitForSeconds(ReloadTime);
-        if (_isReloading)
-        {
-            if (AmmoCount - ClipCapacity < 0)
-            {
-                ClipAmmo = AmmoCount;
-                AmmoCount = 0;
-            }
-            else
-            {
-                ClipAmmo = ClipCapacity;
-                AmmoCount -= ClipCapacity;
-            }
-        }
-        _isReloading = false;
-    }
-
     public void Fire()
     {
         if (ClipAmmo > 0 && !_isReloading)
         {
             _isReloading = false;
             ClipAmmo -= 1;
-            _muzzleFlashRenderer.enabled = true;
-            _muzzleFlash.Play("muzzle-flash", -1, 0f);
+            MuzzleFlashPlayer.StartFX();
             GameObject bullet = Instantiate(
                 Bullet,
                 WeaponMuzzle.position,

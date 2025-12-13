@@ -21,6 +21,8 @@ public class Rayfinder : MonoBehaviour
     public float Speed = 1f;
     public float RotationSpeed = 10f;
     public bool CanFly = false;
+    public bool LookAtDestinationY = false;
+
     public bool CanRotateAndMove = true;
     public List<Node> Path { get; } = new List<Node>();
 
@@ -28,10 +30,25 @@ public class Rayfinder : MonoBehaviour
 
     public MovementResult Move(bool grounded)
     {
-        if (Vector3.Distance(Source.position, Destination.position) < StopDistance)
+        // Compare distance on XZ plane only
+        float distance = CanFly
+            ? Vector3.Distance(Source.position, Destination.position)
+            : Vector2.Distance(
+                new Vector2(Source.position.x, Source.position.z),
+                new Vector2(Destination.position.x, Destination.position.z)
+            );
+
+        if (distance < StopDistance)
         {
             return MovementResult.ReachedDestination;
         }
+
+        Quaternion rotation = LookAtDestinationY
+            ? Quaternion.LookRotation(Destination.position - Source.position)
+            : Quaternion.LookRotation(
+                new Vector3(Destination.position.x, Source.position.y, Destination.position.z)
+                    - Source.position
+            );
 
         if (CanRotateAndMove)
         {
@@ -42,13 +59,13 @@ public class Rayfinder : MonoBehaviour
             );
             Source.rotation = Quaternion.RotateTowards(
                 Source.rotation,
-                Quaternion.LookRotation(Destination.position - Source.position),
+                rotation,
                 Speed * Time.deltaTime * RotationSpeed
             );
         }
         else
         {
-            if (Source.rotation == Quaternion.LookRotation(Destination.position - Source.position))
+            if (Source.rotation == rotation)
             {
                 Source.position = Vector3.MoveTowards(
                     Source.position,
@@ -61,7 +78,7 @@ public class Rayfinder : MonoBehaviour
             {
                 Source.rotation = Quaternion.RotateTowards(
                     Source.rotation,
-                    Quaternion.LookRotation(Destination.position - Source.position),
+                    rotation,
                     RotationSpeed * Time.deltaTime
                 );
             }

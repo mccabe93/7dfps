@@ -9,6 +9,7 @@ TagManager:
   - WeaponMuzzle
   - Bullet_Player
   - Enemy
+  - Bullet_Enemy
   layers:
   - Default
   - TransparentFX
