@@ -1,8 +1,5 @@
 using System.Collections;
-using UnityEditor.PackageManager;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ClownMan : MonoBehaviour
 {
