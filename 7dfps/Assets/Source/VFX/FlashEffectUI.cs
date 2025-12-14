@@ -27,6 +27,10 @@ public class FlashEffectUI : MonoBehaviour
     private IEnumerator FlashFX()
     {
         float elapsedTime = 0.0f;
+        if (UIImage == null)
+        {
+            UIImage = GameObject.FindGameObjectWithTag("UI_Overlay").GetComponent<Image>();
+        }
         Color originalColor = UIImage.color;
         float rDiff = originalColor.r - Color.r;
         float gDiff = originalColor.g - Color.g;

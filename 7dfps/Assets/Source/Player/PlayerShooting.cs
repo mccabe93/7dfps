@@ -8,9 +8,15 @@ using UnityEngine.InputSystem.HID;
 
 public class PlayerShooting : MonoBehaviour
 {
+    public Action<int> OnWeaponFired;
+    public Action<int> OnReloaded;
+
     public GameObject Player;
     public GameObject Bullet;
     public Transform WeaponTransform;
+
+    public AudioSource[] GunshotSounds;
+    public AudioSource ReloadSound;
 
     public MuzzleFlashPlayer MuzzleFlashPlayer;
     public int AmmoCount = 10;
@@ -34,6 +40,8 @@ public class PlayerShooting : MonoBehaviour
 
     private Transform WeaponMuzzle;
     private Transform Camera;
+
+    private int _gunshotIndex = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,6 +67,8 @@ public class PlayerShooting : MonoBehaviour
         if (_canAct && ReloadAction.action.triggered)
         {
             _isReloading = true;
+            ReloadSound.enabled = true;
+            ReloadSound.Play();
             ReloadEffect.StartFX();
             ReloadEffect.OnEffectComplete = () =>
             {
@@ -74,6 +84,7 @@ public class PlayerShooting : MonoBehaviour
                         ClipAmmo = ClipCapacity;
                         AmmoCount -= ClipCapacity;
                     }
+                    OnReloaded?.Invoke(ClipAmmo);
                 }
                 _isReloading = false;
             };
@@ -110,6 +121,18 @@ public class PlayerShooting : MonoBehaviour
         {
             _isReloading = false;
             ClipAmmo -= 1;
+            OnWeaponFired?.Invoke(1);
+            GunshotSounds[_gunshotIndex].enabled = true;
+            GunshotSounds[_gunshotIndex].Play();
+            if (_gunshotIndex + 1 >= GunshotSounds.Length)
+            {
+                _gunshotIndex = 0;
+            }
+            else
+            {
+                _gunshotIndex += 1;
+            }
+            //RecoilEffect.StartFX();
             MuzzleFlashPlayer.StartFX();
             GameObject bullet = Instantiate(
                 Bullet,

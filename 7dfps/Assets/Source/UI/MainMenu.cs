@@ -5,7 +5,7 @@ public class MainMenu : MonoBehaviour
 {
     public void OnPlayClicked()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Purgatory");
     }
 
     public void OnQuitClicked()

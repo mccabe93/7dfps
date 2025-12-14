@@ -14,7 +14,7 @@ public class MuzzleFlashPlayer : MonoBehaviour
         _weaponMuzzle = GetComponentsInChildren<Transform>()
             .FirstOrDefault(t => t.tag == "WeaponMuzzle")
             ?.transform;
-        _muzzleFlash = MuzzleFlash.GetComponent<Animator>();
+        _muzzleFlash = MuzzleFlash.GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame

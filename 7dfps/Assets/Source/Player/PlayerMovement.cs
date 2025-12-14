@@ -17,9 +17,11 @@ public class PlayerMovement : MonoBehaviour
 
     private GroundedChecker _groundedChecker;
 
-    public float Speed = 1.0f;
+    public float Speed = 3.0f;
 
-    public float JumpForce = 10.0f;
+    public float JumpForce = 300.0f;
+
+    public float SprintTime = 0.5f;
 
     public float SprintMultiplier = 2.0f;
 
@@ -40,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         _groundedChecker = gameObject.AddComponent<GroundedChecker>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         MovePlayer();
         MoveCamera();
@@ -48,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (_groundedChecker.IsGrounded && JumpAction.action.WasPressedThisDynamicUpdate())
+        if (_groundedChecker.IsGrounded && JumpAction.action.WasPressedThisFrame())
         {
             Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             return;
@@ -58,22 +60,31 @@ public class PlayerMovement : MonoBehaviour
         float verticalSpeed = input.y * Speed;
         float horizontalSpeed = input.x * Speed;
 
+        if (horizontalSpeed == 0.0f && verticalSpeed == 0.0f)
+        {
+            SprintTime += Time.deltaTime;
+            return;
+        }
+
         Vector3 horizontalMovement = new Vector3(horizontalSpeed, 0f, verticalSpeed);
         horizontalMovement = transform.rotation * horizontalMovement;
 
         MovementInput.x = horizontalMovement.x;
         MovementInput.z = horizontalMovement.z;
 
-        if (SprintAction.action.IsPressed())
+        float speed = Speed;
+
+        if (SprintAction.action.IsPressed() && SprintTime > 0)
         {
-            MovementInput.x *= SprintMultiplier;
-            MovementInput.z *= SprintMultiplier;
+            speed *= SprintMultiplier;
+            speed *= SprintMultiplier;
+            SprintTime -= Time.deltaTime;
         }
 
         PlayerTransform.position = Vector3.MoveTowards(
             PlayerTransform.position,
             PlayerTransform.position + MovementInput,
-            Speed
+            speed * Time.deltaTime
         );
     }
 

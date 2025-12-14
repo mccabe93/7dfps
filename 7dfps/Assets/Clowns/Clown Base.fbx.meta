@@ -3,7 +3,12 @@ guid: 157413f32f022ba4d922c9bc0f162180
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shijoku
+    second: {fileID: 2100000, guid: 80c6c24b5eac73548b19035c42330442, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -31,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack 1
+      name: Melee
       takeName: Attack 1
       internalID: -1962111147472363628
       firstFrame: 0
@@ -118,7 +123,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Attack 2
+      name: Melee2
       takeName: Attack 2
       internalID: 296130795608717920
       firstFrame: 0
@@ -176,7 +181,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Gunplay
+      name: Shoot
       takeName: Gunplay
       internalID: 417175240684547266
       firstFrame: 0
@@ -384,11 +389,11 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1

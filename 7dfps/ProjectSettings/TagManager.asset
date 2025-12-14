@@ -10,6 +10,12 @@ TagManager:
   - Bullet_Player
   - Enemy
   - Bullet_Enemy
+  - Enemy_ClownCar
+  - UI_EnemyList
+  - LevelController
+  - HUD
+  - UI_Overlay
+  - PlayerBody
   layers:
   - Default
   - TransparentFX

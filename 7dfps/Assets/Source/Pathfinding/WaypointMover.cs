@@ -31,6 +31,14 @@ public class WaypointMover : MonoBehaviour
         _targetProxy = proxyGO.transform;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy_ClownCar"))
+        {
+            SetNewDestination();
+        }
+    }
+
     void Start()
     {
         Transform closestWaypoint = GetClosestWaypoint();
@@ -53,17 +61,22 @@ public class WaypointMover : MonoBehaviour
     {
         if (Rayfinder.Move(true) == MovementResult.ReachedDestination)
         {
-            _currentWaypointIndex++;
-            if (_currentWaypointIndex > Path.Length - 1)
-            {
-                _currentWaypointIndex = 0; // Loop back to start
-            }
+            SetNewDestination();
+        }
+    }
 
-            Transform nextWaypoint = Path[_currentWaypointIndex];
-            if (nextWaypoint != null)
-            {
-                SetProxyDestination(nextWaypoint);
-            }
+    private void SetNewDestination()
+    {
+        _currentWaypointIndex++;
+        if (_currentWaypointIndex > Path.Length - 1)
+        {
+            _currentWaypointIndex = 0; // Loop back to start
+        }
+
+        Transform nextWaypoint = Path[_currentWaypointIndex];
+        if (nextWaypoint != null)
+        {
+            SetProxyDestination(nextWaypoint);
         }
     }
 
